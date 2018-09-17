@@ -13,7 +13,6 @@
     <meta name="msapplication-navbutton-color" content="#000">
     <!--for safari-->
     <meta name="apple-mobile-web-app-status-bar-style" content="#000">
-
     <!--These meta tags help with SEO-->
     <meta name="description" content="Weather Application">
     <meta name="keywords" content="Weather Application, Weather">
@@ -24,9 +23,17 @@
     <link rel="stylesheet" href="./style/index.css">
 </head>
 <body>
-    <div class="lds-dual-ring center"></div>
-    <p>test2</p>
-    <main></main>
+    <div class="lds-dual-ring center display-none"></div>
+    <main>
+        <button id="open-menu-btn" class="ripple">
+            <img class="icon-sm-28" src="./assets/images/icons/menu.png" alt="">
+        </button>
+
+        <!--Currently Weather section-->
+        <section id="current-day-weather-container">
+            <h1 class="location-label">Brasov</h1>
+        </section>
+    </main>
     <script src="./scripts/index.js"></script>
 </body>
 </html>

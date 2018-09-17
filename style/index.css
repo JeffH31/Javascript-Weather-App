@@ -115,6 +115,19 @@ body{
 	user-select: none;
 }
 
+main {
+	background-image: url("../assets/images/bg-images/clear-day.jpg");
+	background-size: cover;
+	background: no-repeat;
+	background-position: 100% 100%;
+}
+
+button {
+	background: transparent;
+	border: none;
+	outline: none;
+}
+
 /* ================================ General used classes CSS ================================ */
 .center {
 	position: absolute;
@@ -133,4 +146,44 @@ body{
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
+}
+
+.display-none {
+	display: none;
+}
+
+.icon-sm-25 {
+	width: 25px;
+}
+
+.icon-sm-28 {
+	width: 28px;
+}
+
+.icon-sm-30 {
+	width: 30px;
+}
+
+/* ================================ Menu Btn ================================ */
+#open-menu-btn {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	padding: 10px;
+}
+
+/* ================================ Current Day Weather Container ================================ */
+#current-day-weather-container {
+	width: 100%;
+	height: 60%;
+	position: relative;
+	color: #fff;
+	padding: 80px 30px 20px 30px;
+}
+
+.location-label {
+	font-size: 30px;
+	font-weight: 900;
+	margin-bottom: 50px;
+	letter-spacing: 1.3px;
 }
