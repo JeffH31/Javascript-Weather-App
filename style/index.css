@@ -118,7 +118,7 @@ body{
 main {
 	background-image: url("../assets/images/bg-images/clear-day.jpg");
 	background-size: cover;
-	background: no-repeat;
+	background-repeat: no-repeat;
 	background-position: 100% 100%;
 }
 
