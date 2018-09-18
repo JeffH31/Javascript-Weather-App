@@ -32,6 +32,27 @@
         <!--Currently Weather section-->
         <section id="current-day-weather-container">
             <h1 class="location-label">Brasov</h1>
+
+            <div class="flex-container" id="temperature-summary-container">
+                <div>
+                    <img src="./assets/images/summary-icons/clear-day-white.png" alt="">
+                </div>                
+                <div>
+                    <h1 id="degrees-label">20&#176;</h1>
+                    <p id="summary-label">Clear Day</p>
+                </div>
+            </div>
+                
+            <div class="flex-container" id="humidity-wind-container">
+                <div>
+                    <img class="icon-sm-30" src="./assets/images/icons/humidity.png" alt="">
+                    <span>20%</span>
+                </div>
+                <div>
+                    <img class="icon-sm-30" src="./assets/images/icons/wind-speed-flag.png" alt="">
+                    <span>3mph</span>
+                </div>
+            </div>            
         </section>
     </main>
     <script src="./scripts/index.js"></script>
