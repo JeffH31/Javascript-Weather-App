@@ -276,7 +276,7 @@ button {
 }
 
 /* Current Day Hint */
-.current-day-of-the-week {
+.current-day-of-the-week::before {
 	content: "";
 	display: block;
 	position: absolute;
