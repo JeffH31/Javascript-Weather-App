@@ -293,3 +293,16 @@ button {
 #daily-weather-wrapper {
 	background-color: rgba(000, 000, 000, .6);
 }
+
+/* ================================ Hourly Weather ================================ */
+#hourly-weather-wrapper {
+	background-color: rgba(236, 240, 241, .6);
+	color: #353B48;
+	position: absolute;
+	bottom: 0;
+	transition: bottom .5s;
+}
+
+#hourly-weather-wrapper>div>div:last-child {
+	color: #636E72;
+}
