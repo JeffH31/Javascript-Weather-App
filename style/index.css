@@ -167,6 +167,7 @@ button {
 .flex-container{
 	display: flex;
 	width: 100%;
+	align-items: center;
 }
 
 /*selects all the direct children of the flex-container*/
@@ -177,12 +178,18 @@ button {
 	/*Or flex: 1 1 0;*/
 }
 
+.disabled {
+	background-color: #ddd !important;
+	color: grey !important;
+}
+
 /* ================================ Menu Btn ================================ */
 #open-menu-btn {
 	position: fixed;
 	top: 20px;
 	right: 20px;
 	padding: 10px;
+	z-index: 1;
 }
 
 /* ================================ Current Day Weather Container ================================ */
@@ -298,11 +305,113 @@ button {
 #hourly-weather-wrapper {
 	background-color: rgba(236, 240, 241, .6);
 	color: #353B48;
-	position: absolute;
-	bottom: 0;
+	position: fixed;
+	bottom: -100%;
 	transition: bottom .5s;
+	height: 40%;
 }
 
 #hourly-weather-wrapper>div>div:last-child {
 	color: #636E72;
+}
+
+/* ================================ Menu ================================ */
+
+#menu-container {
+	position: fixed;
+	top: 0;
+	right: -65%;
+	width: 65%;
+	height: 100%;
+	z-index: 4;
+	color: #fff;
+	transition: right .5s;
+}
+
+#menu-container > div {
+	background-color: rgba(53,59,72,0.9);
+	width: 100%;
+	height: 100%;
+}
+
+#close-menu-btn{
+	position: absolute;
+	right: 0;
+	color: #fff;
+	font-size: 25px;
+	padding: 10px;
+}
+
+#add-location-wrapper {
+	width: 100px;
+	height: 50%;
+	text-align: center;
+	padding: 60px 20px 20px;
+}
+
+#location-input{
+	background: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 2px solid #EE5253;
+	width: 100%;
+	font-size: 16px;
+	color: #fff;
+	letter-spacing: 1.2px;
+	padding-bottom: 5px;
+}
+
+#location-input::webkit-input-placeholder {
+	color: #acacac;
+}
+
+#location-input::moz-input-placeholder {
+	color: #acacac;
+}
+
+#location-input::o-input-placeholder {
+	color: #acacac;
+}
+
+#add-city-btn{
+	background-color: #EE5253;
+	color: #fff;
+	padding: 7px 12px;
+	margin-top: 20px;
+	margin-bottom: 60px;
+	letter-spacing: 1.1px;
+	font-size: 16px;
+}
+
+#add-location-wrapper .location-label{
+	font-size: 26px;
+}
+
+#saved-cities-wrapper {
+	width: 100%;
+	height: 50%;
+	font-size: 18px;
+	padding: 10px 20px;
+	overflow-y: scroll;
+}
+
+.saved-city-box {
+	border-bottom: 2px solid #7F8C8D;
+	padding-bottom: 8px;
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.saved-city-box div:first-child{
+	flex: 5 5 0;
+}
+
+.saved-city-box div:last-child {
+	text-align: right;
+}
+
+.remove-saved-city{
+	color: #ee5253;
+	border: 2px solid #ee5253;
+	border-radius: 100%;
 }
