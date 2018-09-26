@@ -23,10 +23,33 @@ const UI = (function () {
 
     const _hideMenu = () => menu.style.right = '-65%';
 
-    document.querySelector("#open-menu-btn").addEventListener('click', _showMenu);
+    const _toggleHourlyWeather = () => {
+        let hourlyWeather = document.querySelector("#hourly-weather-wrapper"),
+            arrow = document.querySelector("#toggle-hourly-weather").children[0],
+            visible = hourlyWeather.getAttribute('visible'),
+            dailyWeather = document.querySelector("#daily-weather-wrapper");
 
+            if(visible == 'false'){
+                hourlyWeather.setAttribute('visible', 'true');
+                hourlyWeather.style.bottom = 0;
+                arrow.style.transform = "rotate(180deg)";
+                dailyWeather.style.opacity = 0;
+            } else if (visible == 'true') {
+                hourlyWeather.setAttribute('visible', 'false');
+                hourlyWeather.style.bottom = '-100%';
+                arrow.style.transform = "rotate(0deg)";
+                dailyWeather.style.opacity = 1;
+            } else console.error("Uknown state of the hourly weather panel and visible attribute.");
+    };
+
+    //menu events
+    document.querySelector("#open-menu-btn").addEventListener('click', _showMenu);
     document.querySelector("#close-menu-btn").addEventListener('click', _hideMenu);
 
+    //hourly-weather wrapper event
+    document.querySelector("#toggle-hourly-weather").addEventListener('click', _toggleHourlyWeather);
+
+    //export
     return{
         showApp,
         loadApp
