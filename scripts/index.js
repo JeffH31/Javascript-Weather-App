@@ -57,8 +57,8 @@ const UI = (function () {
 
 })();
 
-//UI Elements module
-//This module will be responsible for controlling elements like the menu
+//Get location Module
+//This module will be responsible for getting the data about the location to search for weather
 
 const GETLOCATION = (function () {
 
@@ -89,6 +89,17 @@ const GETLOCATION = (function () {
     })
 
     addCityBtn.addEventListener('click', _addCity);
+})();
+
+//Get weather data
+//This module will acquire weather data and then it will pass to another module which will put the data on UI
+const WEATHER = (function () {
+    const darkSkyKey = 'ee326c82308661699eff51c8b66f75d3',
+    geocoderKey = '6603bc581c2c47f2b18833e23cf051ee';
+
+    const _getGeocodeURL = (location) => 'https://api.opencagedata.com/geocode/v1/json?q=${location}&key=${geocoderKey}'
+
+    const _getDarkSkyURL = (lat, lng) => 'https://api.darksky.net/forecast/${darkSkyKey}/${lat},${lng}';
 })();
 
 //Init
