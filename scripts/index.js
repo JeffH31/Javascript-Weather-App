@@ -72,8 +72,9 @@ const GETLOCATION = (function () {
         locationInput.value = "";
         addCityBtn.setAttribute('disabled', 'true');
         addCityBtn.classList.add('disabled');
-
-        console.log("Get weather data for", location)
+        
+        //Get Weather Data
+        WEATHER.getWeather(location)
     }
 
     locationInput.addEventListener('input', function(){
@@ -97,9 +98,31 @@ const WEATHER = (function () {
     const darkSkyKey = 'ee326c82308661699eff51c8b66f75d3',
     geocoderKey = '6603bc581c2c47f2b18833e23cf051ee';
 
-    const _getGeocodeURL = (location) => 'https://api.opencagedata.com/geocode/v1/json?q=${location}&key=${geocoderKey}'
+    //const _getGeocodeURL = (location) => 'https://api.opencagedata.com/geocode/v1/json?q=${location}&key=${geocoderKey}`;
 
-    const _getDarkSkyURL = (lat, lng) => 'https://api.darksky.net/forecast/${darkSkyKey}/${lat},${lng}';
+    //const _getDarkSkyURL = (lat, lng) => 'https://api.darksky.net/forecast/${darkSkyKey}/${lat},${lng}';
+
+    const _getGeocodeURL = (location) => `https://api.opencagedata.com/geocode/v1/json?q=${location}&key=${geocoderKey}`;
+
+    const _getDarkSkyURL = (lat, lng) => `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${darkSkyKey}/${lat},${lng}`;
+
+    const getWeather = (location) => {
+        UI.loadApp();
+
+        let geocodeURL = _getGeocodeURL(location);
+
+        axios.get(geocodeURL)
+            .then( (res) => {
+                console.log(res.data.results[0].geometry);
+            })
+            .catch( (err) => {
+                console.log(err)
+            })
+    };
+
+    return {
+        getWeather
+    }
 })();
 
 //Init
