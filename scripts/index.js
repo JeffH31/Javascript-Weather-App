@@ -100,7 +100,17 @@ const WEATHER = (function () {
 
     const _getGeocodeURL = (location) => `https://api.opencagedata.com/geocode/v1/json?q=${location}&key=${geocoderKey}`;
 
-    const _getDarkSkyURL = (lat, lng) => `https://api.darksky.net/forecast/${darkSkyKey}/${lat},${lng}`;
+    const _getDarkSkyURL = (lat, lng) => `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${darkSkyKey}/${lat},${lng}`;
+
+    const _getDarkSkyData = (url) => {
+        axios.get(url)
+        .then( (res) => {
+            console.log(res);
+        })
+        .catch( (err) => {
+            console.err(err);
+        });
+    };
 
     const getWeather = (location) => {
         UI.loadApp();
@@ -109,7 +119,12 @@ const WEATHER = (function () {
 
         axios.get(geocodeURL)
             .then( (res) => {
-                console.log(res.data.results[0].geometry);
+                let lat = res.data.results[0].geometry.lat,
+                lng = res.data.results[0].geometry.lng;
+
+                let darkSkyURL = _getDarkSkyURL(lat, lng);
+
+                _getDarkSkyData(darkSkyURL);
             })
             .catch( (err) => {
                 console.log(err)
