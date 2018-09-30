@@ -42,6 +42,38 @@ const UI = (function () {
             } else console.error("Uknown state of the hourly weather panel and visible attribute.");
     };
 
+    const drawWeatherData = (data, location) => {
+        console.log(data)
+        console.log(location)
+
+        let currentlyData = data.currently;
+
+        //Set current Weather
+        //====================
+        //Set current function
+
+        document.querySelectorAll(".location-label").forEach( (e) => {
+            e.innerHTML = location;
+        });
+
+        //Set the background image
+        document.querySelector('main').style.backgroundImage = `url("./assets/images/bg-images/${currentlyData.icon}.jpg")`;
+        //Set the icon
+        document.querySelector("#summary-label").innerHTML = currentlyData.summary;
+        //Set temperature from fahrenheit to celcius
+        document.querySelector("#degrees-label").innerHTML = Math.round((
+            currentlyData.temperature - 32) * 5/9) + '&#176;'
+        
+        //Set humidity
+        document.querySelector("#humidity-label").innerHTML = Math.round(
+            currentlyData.humidity * 100) + '%';        
+        //Set windspeed
+        document.querySelector("#wind-speed-label").innerHTML = 
+            (currentlyData.windSpeed * 1.6093).toFixed(1) + 'kph';  
+
+        UI.showApp();
+    }    
+
     //menu events
     document.querySelector("#open-menu-btn").addEventListener('click', _showMenu);
     document.querySelector("#close-menu-btn").addEventListener('click', _hideMenu);
@@ -52,7 +84,8 @@ const UI = (function () {
     //export
     return{
         showApp,
-        loadApp
+        loadApp,
+        drawWeatherData
     }
 
 })();
@@ -102,13 +135,14 @@ const WEATHER = (function () {
 
     const _getDarkSkyURL = (lat, lng) => `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${darkSkyKey}/${lat},${lng}`;
 
-    const _getDarkSkyData = (url) => {
+    const _getDarkSkyData = (url, location) => {
         axios.get(url)
         .then( (res) => {
             console.log(res);
+            UI.drawWeatherData(res.data, location)
         })
         .catch( (err) => {
-            console.err(err);
+            console.error(err);
         });
     };
 
@@ -124,7 +158,7 @@ const WEATHER = (function () {
 
                 let darkSkyURL = _getDarkSkyURL(lat, lng);
 
-                _getDarkSkyData(darkSkyURL);
+                _getDarkSkyData(darkSkyURL, location);
             })
             .catch( (err) => {
                 console.log(err)
