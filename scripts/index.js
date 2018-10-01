@@ -83,10 +83,9 @@ const UI = (function () {
             (currentlyData.windSpeed * 1.6093).toFixed(1) + 'kph';  
 
         //Set daily weather
-        While(dailyWeatherWrapper.children[1]) {
+        while (dailyWeatherWrapper.children[1]) {
             dailyWeatherWrapper.removeChild(dailyWeatherWrapper.children[1])
         }
-
         for(let i = 0; i <= 6; i++){
             //clone the node and remove the display-none class
             dailyWeatherModule = dailyWeatherWrapper.children[0].cloneNode(true);
