@@ -165,7 +165,7 @@ const LOCALSTORAGE = (function () {
     }
 
     const get = () => {
-        if(localStorage.getItem('savedCities' != null))
+        if(localStorage.getItem('savedCities') != null)
         savedCities = JSON.parse(localStorage.getItem('savedCities'));
     }
 
@@ -209,7 +209,7 @@ const GETLOCATION = (function () {
         addCityBtn.classList.add('disabled');
 
         // get weather data
-        WEATHER.getWeather(location)
+        WEATHER.getWeather(location, true)
     }
 
     locationInput.addEventListener('input', function () {
@@ -256,13 +256,24 @@ const WEATHER = (function () {
             })
     };
 
-    const getWeather = (location) => {
+    const getWeather = (location, save) => {
         UI.loadApp();
 
         let geocodeURL = _getGeocodeURL(location);
 
         axios.get(geocodeURL)
             .then( (res) => {
+                console.log(res);
+                if(res.data.results.length == 0){
+                    console.error("Invalid Location");
+                    UI.showApp();
+                    return;
+                }
+
+                if (save) {
+                    LOCALSTORAGE.save(location);
+                }                
+
                 let lat = res.data.results[0].geometry.lat,
                     lng = res.data.results[0].geometry.lng;
 
@@ -288,5 +299,11 @@ const WEATHER = (function () {
 // ** ******************************************** */
 
 window.onload = function () {
-    UI.showApp();
+    LOCALSTORAGE.get();
+    let cities = LOCALSTORAGE.getSavedCities();
+    if(cities.length != 0) {
+        WEATHER.getWeather(cities[cities.length - 1], false)
+    }
+    else UI.showApp();
+
 }
