@@ -1,26 +1,29 @@
-//UI Elements module
-//This module will be responsible for controlling elements like the menu
+// /* **********************************************
+// **
+// ** UI Elements Module
+// **
+// ** - this module will be responsible for controling UI Elements like 'menu'
+// ** ******************************************** */
 
 const UI = (function () {
-
     let menu = document.querySelector("#menu-container");
 
+    // show the app and hide the loading screen
     const showApp = () => {
-        document.querySelector("#app-loader")
-        .classList.add('display-none');
-        document.querySelector("main").removeAttribute
-        ('hidden');
+        document.querySelector("#app-loader").classList.add('display-none');
+        document.querySelector("main").removeAttribute('hidden');
     };
 
+    // hide the app and show the loading screen
     const loadApp = () => {
-        document.querySelector("#app-loader")
-        .classList.remove('display-none');
-        document.querySelector("main").setAttribute
-        ('hidden', 'true');
+        document.querySelector("#app-loader").classList.remove('display-none');
+        document.querySelector("main").setAttribute('hidden', 'true');
     };
 
+    // show menu
     const _showMenu = () => menu.style.right = 0;
 
+    // hide menu
     const _hideMenu = () => menu.style.right = '-65%';
 
     const _toggleHourlyWeather = () => {
@@ -29,27 +32,25 @@ const UI = (function () {
             visible = hourlyWeather.getAttribute('visible'),
             dailyWeather = document.querySelector("#daily-weather-wrapper");
 
-            if(visible == 'false'){
-                hourlyWeather.setAttribute('visible', 'true');
-                hourlyWeather.style.bottom = 0;
-                arrow.style.transform = "rotate(180deg)";
-                dailyWeather.style.opacity = 0;
-            } else if (visible == 'true') {
-                hourlyWeather.setAttribute('visible', 'false');
-                hourlyWeather.style.bottom = '-100%';
-                arrow.style.transform = "rotate(0deg)";
-                dailyWeather.style.opacity = 1;
-            } else console.error("Uknown state of the hourly weather panel and visible attribute.");
+        if (visible == 'false') {
+            hourlyWeather.setAttribute('visible', 'true');
+            hourlyWeather.style.bottom = 0;
+            arrow.style.transform = "rotate(180deg)";
+            dailyWeather.style.opacity = 0;
+        } else if (visible == 'true') {
+            hourlyWeather.setAttribute('visible', 'false');
+            hourlyWeather.style.bottom = '-100%';
+            arrow.style.transform = "rotate(0deg)";
+            dailyWeather.style.opacity = 1;
+        } else console.error("Unknown state of the hourly weather panel and visible attribute");
     };
 
     const drawWeatherData = (data, location) => {
-        console.log(data)
-        console.log(location)
 
         let currentlyData = data.currently,
             dailyData = data.daily.data,
             hourlyData = data.hourly.data,
-            weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             dailyWeatherWrapper = document.querySelector("#daily-weather-wrapper"),
             dailyWeatherModel,
             day,
@@ -59,89 +60,87 @@ const UI = (function () {
             hourlyWeatherModel,
             hourlyIcon;
 
-        //Set current Weather
-        //====================
-        //Set current function
-
-        document.querySelectorAll(".location-label").forEach( (e) => {
+        // set current weather
+        // ===================
+        // set current location
+        document.querySelectorAll(".location-label").forEach((e) => {
             e.innerHTML = location;
         });
-
-        //Set the background image
+        // set the background
         document.querySelector('main').style.backgroundImage = `url("./assets/images/bg-images/${currentlyData.icon}.jpg")`;
-        //Set the icon
+        // set the icon
+        document.querySelector("#currentlyIcon").setAttribute('src', `./assets/images/summary-icons/${currentlyData.icon}-white.png`);
+        // set summary
         document.querySelector("#summary-label").innerHTML = currentlyData.summary;
-        //Set temperature from fahrenheit to celcius
+        // set temperature from Fahrenheit -> Celcius
         document.querySelector("#degrees-label").innerHTML = Math.round((
-            currentlyData.temperature - 32) * 5/9) + '&#176;'
-        
-        //Set humidity
-        document.querySelector("#humidity-label").innerHTML = Math.round(
-            currentlyData.humidity * 100) + '%';        
-        //Set windspeed
-        document.querySelector("#wind-speed-label").innerHTML = 
-            (currentlyData.windSpeed * 1.6093).toFixed(1) + 'kph';  
+            currentlyData.temperature - 32) * 5 / 9) + '&#176;'
 
-        //Set daily weather
+        // set humidty
+        document.querySelector("#humidity-label").innerHTML = Math.round(currentlyData.humidity * 100) + '%';
+        // set wind speed
+        document.querySelector("#wind-speed-label").innerHTML = (currentlyData.windSpeed * 1.6093).toFixed(1) + ' kph';
+
+        // set daily weather
+        // ===================
         while (dailyWeatherWrapper.children[1]) {
             dailyWeatherWrapper.removeChild(dailyWeatherWrapper.children[1])
         }
-        for(let i = 0; i <= 6; i++){
-            //clone the node and remove the display-none class
-            dailyWeatherModule = dailyWeatherWrapper.children[0].cloneNode(true);
+
+        for (let i = 0; i <= 6; i++) {
+            // clone the node and remove display none close
+            dailyWeatherModel = dailyWeatherWrapper.children[0].cloneNode(true);
             dailyWeatherModel.classList.remove('display-none');
-            //set the day
+            // set the day
             day = weekDays[new Date(dailyData[i].time * 1000).getDay()]
             dailyWeatherModel.children[0].children[0].innerHTML = day;
-            //Set min/max temperature for the next day in celcius
-            maxMinTemp = Math.round((dailyData[i].temperatureMax - 32) * 5 / 9) + '&#176;' +
-            Math.round ((dailyData[i].temperatureMin - 32) * 5 / 9) + '&#176;';
+            // set min/max temperature for the next days in Celcius
+            maxMinTemp = Math.round((dailyData[i].temperatureMax - 32) * 5 / 9) + '&#176;' + '/' + Math.round((dailyData[i].temperatureMin - 32) * 5 / 9) + '&#176;';
             dailyWeatherModel.children[1].children[0].innerHTML = maxMinTemp;
-
-            //Set daily icon
+            // set daily icon
             dailyIcon = dailyData[i].icon;
             dailyWeatherModel.children[1].children[1].children[0].setAttribute('src', `./assets/images/summary-icons/${dailyIcon}-white.png`);
-            //append the model
+            // append the model
             dailyWeatherWrapper.appendChild(dailyWeatherModel);
         }
         dailyWeatherWrapper.children[1].classList.add('current-day-of-the-week');
 
-        //Set hourly wrapper
-        //==================
-
+        // set hourly weather
+        // ===================
         while (hourlyWeatherWrapper.children[1]) {
             hourlyWeatherWrapper.removeChild(hourlyWeatherWrapper.children[1])
         }
 
-        for(let i = 0; i <= 24; i++){
-            //clone the node and remove the display none class
+        for (let i = 0; i <= 24; i++) {
+            // clone the node and remove display none close
             hourlyWeatherModel = hourlyWeatherWrapper.children[0].cloneNode(true);
             hourlyWeatherModel.classList.remove('display-none');
-            //Set hour
+            // set hour
             hourlyWeatherModel.children[0].children[0].innerHTML = new Date(hourlyData[i].time * 1000).getHours() + ":00";
-            //Set temperature
-            hourlyWeatherModel.children[1].children[0].innerHTML = Math.round((hourlyData[i].temperature - 32) * 5 / 9) + '&#176;';
-            //Set the icon
-            hourlyIcon = hourlyData[i].icon;
-            hourlyWeatherModel.children[1].children[1].children[0].setAttribute('src',
-            `./assets/images/summary-icons/${hourlyIcon}-grey.png`);
 
-            //append model
+            // set temperature
+            hourlyWeatherModel.children[1].children[0].innerHTML = Math.round((hourlyData[i].temperature - 32) * 5 / 9) + '&#176;';
+            // set the icon
+            hourlyIcon = hourlyData[i].icon;
+            hourlyWeatherModel.children[1].children[1].children[0].setAttribute('src', `./assets/images/summary-icons/${hourlyIcon}-grey.png`);
+
+            // append model
             hourlyWeatherWrapper.appendChild(hourlyWeatherModel);
         }
 
-        UI.showApp();
-    }    
 
-    //menu events
+        UI.showApp();
+    };
+
+    // menu events
     document.querySelector("#open-menu-btn").addEventListener('click', _showMenu);
     document.querySelector("#close-menu-btn").addEventListener('click', _hideMenu);
 
-    //hourly-weather wrapper event
+    // hourly-weather wrapper event
     document.querySelector("#toggle-hourly-weather").addEventListener('click', _toggleHourlyWeather);
 
-    //export
-    return{
+    // export
+    return {
         showApp,
         loadApp,
         drawWeatherData
@@ -149,8 +148,13 @@ const UI = (function () {
 
 })();
 
-//Get location Module
-//This module will be responsible for getting the data about the location to search for weather
+
+// /* **********************************************
+// **
+// ** Get location Module
+// **
+// ** - this module will be responsible for getting the data about the location to search for weather
+// ** ******************************************** */
 
 const GETLOCATION = (function () {
 
@@ -159,20 +163,21 @@ const GETLOCATION = (function () {
     const locationInput = document.querySelector("#location-input"),
         addCityBtn = document.querySelector("#add-city-btn");
 
+
     const _addCity = () => {
         location = locationInput.value;
         locationInput.value = "";
         addCityBtn.setAttribute('disabled', 'true');
         addCityBtn.classList.add('disabled');
-        
-        //Get Weather Data
+
+        // get weather data
         WEATHER.getWeather(location)
     }
 
-    locationInput.addEventListener('input', function(){
+    locationInput.addEventListener('input', function () {
         let inputText = this.value.trim();
 
-        if(inputText != ''){
+        if (inputText != '') {
             addCityBtn.removeAttribute('disabled');
             addCityBtn.classList.remove('disabled');
         } else {
@@ -184,9 +189,17 @@ const GETLOCATION = (function () {
     addCityBtn.addEventListener('click', _addCity);
 })();
 
-//Get weather data
-//This module will acquire weather data and then it will pass to another module which will put the data on UI
+
+
+/* **********************************************
+**
+** Get Weather data
+**
+// ** - this module will aquire weather data and then it will pass to another module which will put the data on UI
+// ** ******************************************** */
+
 const WEATHER = (function () {
+
     const darkSkyKey = 'ee326c82308661699eff51c8b66f75d3',
     geocoderKey = '6603bc581c2c47f2b18833e23cf051ee';
 
@@ -194,15 +207,15 @@ const WEATHER = (function () {
 
     const _getDarkSkyURL = (lat, lng) => `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${darkSkyKey}/${lat},${lng}`;
 
-    const _getDarkSkyData = (url, location) => {
+    const _getDarkSkyData = (url,location) => {
         axios.get(url)
-        .then( (res) => {
-            console.log(res);
-            UI.drawWeatherData(res.data, location)
-        })
-        .catch( (err) => {
-            console.error(err);
-        });
+            .then( (res) => {
+                console.log(res);
+                UI.drawWeatherData(res.data, location)
+            })
+            .catch( (err) => {
+                console.error(err);
+            })
     };
 
     const getWeather = (location) => {
@@ -213,24 +226,29 @@ const WEATHER = (function () {
         axios.get(geocodeURL)
             .then( (res) => {
                 let lat = res.data.results[0].geometry.lat,
-                lng = res.data.results[0].geometry.lng;
+                    lng = res.data.results[0].geometry.lng;
 
-                let darkSkyURL = _getDarkSkyURL(lat, lng);
+                let darkskyURL = _getDarkSkyURL(lat,lng);
 
-                _getDarkSkyData(darkSkyURL, location);
+                _getDarkSkyData(darkskyURL,location);
             })
             .catch( (err) => {
                 console.log(err)
             })
     };
 
-    return {
+    return{
         getWeather
     }
 })();
 
-//Init
+// /* **********************************************
+// **
+// ** Init
+// **
+// ** 
+// ** ******************************************** */
 
-window.onload = function () { //determines when the page has loaded
+window.onload = function () {
     UI.showApp();
 }
